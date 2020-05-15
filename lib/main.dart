@@ -36,7 +36,27 @@ class _QuizPageState extends State<QuizPage> {
 ////    'Approximately one quarter of human bones are in the feet.',
 ////    'A slug\'s blood is green.',
 ////  ];
-
+  void checkAnswer (bool userPickedAnswer) {
+    setState(() {
+      bool correctAnswer = quizBrain.getCorrectAnswer();
+      if (userPickedAnswer == correctAnswer) {
+        scorekepper.add(
+          Icon(
+              Icons.check,
+          color: Colors.green,
+          ),
+        );
+      } else {
+        scorekepper.add(
+          Icon(
+            Icons.close,
+            color: Colors.red,
+          ),
+        );
+      }
+        quizBrain.nextQuestion();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -73,13 +93,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correctAnswer = quizBrain.getCorrectAnswer();
-                if (correctAnswer == true) {
-                  print("You're right");
-                }
-                setState(() {
-                  quizBrain.nextQuestion();
-                });
+                checkAnswer(true);
                 //The user picked true.
               },
             ),
@@ -98,13 +112,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correctAnswer = quizBrain.getCorrectAnswer();
-                if (correctAnswer == false) {
-                  print("You're right");
-                }
-                setState(() {
-                  quizBrain.nextQuestion();
-                });
+               checkAnswer(false);
                 //The user picked false.
               },
             ),
